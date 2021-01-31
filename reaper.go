@@ -60,11 +60,7 @@ func (r *Reaper) Release() (Destructor, error) {
 		return nil, kerror.New(kerror.EIllegal, "reaper has already called destructors")
 	}
 	destructors := r.destructors
-	finalized := &r.finalized
 	dtor := DestructorFunc(func() error {
-		if *finalized {
-			return kerror.New(kerror.EIllegal, "reaper has already called destructors")
-		}
 		return reap(destructors...)
 	})
 	r.released = true

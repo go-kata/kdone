@@ -10,7 +10,7 @@ type Destructor interface {
 	MustDestroy()
 }
 
-// DestructorFunc represents a functional object destructor.
+// DestructorFunc represents a functional implementation of the Destructor interface.
 type DestructorFunc func() error
 
 // Destroy implements the Destructor interface.
