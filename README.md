@@ -66,7 +66,7 @@ func NewApplication() (*Application, error) {
 		return nil, err
 	}
 	
-	return &Application{false, logger, database, consumer}, nil
+	return &Application{database, logger, consumer}, nil
 }
 
 func (app *Application) Close() error {
