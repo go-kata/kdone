@@ -196,7 +196,7 @@ defer CloseWithErrorHandling(kdone.CloserFunc(dtor.Destroy))
 This implementation is shorter (even despite lengthy comments), contains fewer entities and
 *gives more guarantees of successful finalization*.
 
-Destructor may be easily converted to or from `io.Closer` thanks to `kdone.CloserFunc`and
+Destructor may be easily converted to or from `io.Closer` thanks to `kdone.CloserFunc` and
 `kdone.DestructorFunc` helpers. If you need an idiomatic resource with the `Close` method
 as its part you may write something like this:
 
