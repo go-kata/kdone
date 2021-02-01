@@ -149,8 +149,8 @@ func NewApplication() (_ *Application, _ kdone.Destructor, err error) {
 	// Destructor will be called anyway - even in case of panic
 	// on other initialization steps or in other destructors.
 	//
-	// We don't loose errors returned from destructors -
-	// all of them will be aggregated into one using kerror.Collector.
+	// We don't loose errors returned from destructors - all of them
+	// will be aggregated into one using kerror.Collector.
 	//
 	// Panic in destructor will be transformed to error.
 	reaper.MustAssume(dtor)
