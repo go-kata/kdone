@@ -43,6 +43,9 @@ func NewApplication() (*Application, error) {
 	if err != nil {
 		return nil, err
 	}
+	// We can't use defer here - if we do this all initialized resources 
+	// will be finalized at the end of constructor and resulting application 
+	// instance will be broken.
 	
 	database, err := NewDatabase(logger)
 	if err != nil {
