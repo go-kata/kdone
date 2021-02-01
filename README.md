@@ -169,6 +169,8 @@ func NewApplication() (_ *Application, _ kdone.Destructor, err error) {
 	}
 	reaper.MustAssume(dtor)
 	
+	// Now an external code is responsible for calling destructors -
+	// reaper is released from this responsibility.
 	return &Application{logger, consumer}, reaper.MustRelease(), nil
 }
 
