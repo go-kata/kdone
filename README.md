@@ -171,14 +171,14 @@ func NewApplication() (_ *Application, _ kdone.Destructor, err error) {
 
 func NewVerboseApplication() (*Application, kdone.Destructor, error) {
 	app, dtor, err := NewApplication()
-    if err != nil {
-        return nil, err
-    }
-    app.Logger.Print("application is up")
+	if err != nil {
+		return nil, err
+	}
+	app.Logger.Print("application is up")
 	return app, kdone.DestructorFunc(func() error {
-        app.Logger.Print("application is down")
+		app.Logger.Print("application is down")
 		return dtor.Destroy()
-    }), err
+	}), err
 }
 
 // ...
