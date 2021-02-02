@@ -1,6 +1,7 @@
 # KDone
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/go-kata/kdone.svg)](https://pkg.go.dev/github.com/go-kata/kdone)
+[![codecov](https://codecov.io/gh/go-kata/kdone/branch/master/graph/badge.svg?token=C8RHRTAB2Y)](https://codecov.io/gh/go-kata/kdone)
 
 ## Installation
 
