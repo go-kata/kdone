@@ -2,3 +2,5 @@ github.com/go-kata/kerror v0.1.0 h1:Y7y0XGOrhWMU1YxvMAYw5VAeDfo4wUZrhLdSQ+KM7LE=
 github.com/go-kata/kerror v0.1.0/go.mod h1:TtwtjetJ75COpTfrJBL9y2q4MEbDWt1r/FeF5M+5xlw=
 github.com/go-kata/kerror v0.1.1 h1:9RMFNpTzN0HxOZHI2Fm0FBRgx2i+0UkQzIMVvyO33Vs=
 github.com/go-kata/kerror v0.1.1/go.mod h1:TtwtjetJ75COpTfrJBL9y2q4MEbDWt1r/FeF5M+5xlw=
+github.com/go-kata/kerror v0.1.2 h1:IAnOcR9NokVyxg+J0xvGDPEDi5tEbEK4SFhrffEEnoQ=
+github.com/go-kata/kerror v0.1.2/go.mod h1:TtwtjetJ75COpTfrJBL9y2q4MEbDWt1r/FeF5M+5xlw=
