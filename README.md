@@ -2,6 +2,7 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/go-kata/kdone.svg)](https://pkg.go.dev/github.com/go-kata/kdone)
 [![codecov](https://codecov.io/gh/go-kata/kdone/branch/master/graph/badge.svg?token=C8RHRTAB2Y)](https://codecov.io/gh/go-kata/kdone)
+[![Report Card](https://goreportcard.com/badge/github.com/go-kata/kdone)](https://goreportcard.com/report/github.com/go-kata/kdone)
 
 ## Installation
 
