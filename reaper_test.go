@@ -155,7 +155,7 @@ func TestReaperWithPanicInDestructor(t *testing.T) {
 	}
 }
 
-func TestReaper_AssumeNilDestructor(t *testing.T) {
+func TestReaper_AssumeWithNilDestructor(t *testing.T) {
 	reaper := NewReaper()
 	err := reaper.Assume(nil)
 	t.Logf("%+v", err)
@@ -176,7 +176,7 @@ func TestReaper_AssumeWhenReleased(t *testing.T) {
 	}
 }
 
-func TestReaper_AssumeWhenFinalizer(t *testing.T) {
+func TestReaper_AssumeWhenFinalized(t *testing.T) {
 	reaper := NewReaper()
 	reaper.MustFinalize()
 	err := reaper.Assume(Noop)
@@ -245,4 +245,31 @@ func TestNilReaper_Assume(t *testing.T) {
 		}
 	}()
 	_ = (*Reaper)(nil).Assume(Noop)
+}
+
+func TestNilReaper_Release(t *testing.T) {
+	dtor, err := (*Reaper)(nil).Release()
+	f, ok := dtor.(DestructorFunc)
+	if !ok {
+		t.Fail()
+		return
+	}
+	if err := f.Destroy(); err != nil {
+		t.Logf("%+v", err)
+		t.Fail()
+		return
+	}
+	if err != nil {
+		t.Logf("%+v", err)
+		t.Fail()
+		return
+	}
+}
+
+func TestNilReaper_Finalize(t *testing.T) {
+	if err := (*Reaper)(nil).Finalize(); err != nil {
+		t.Logf("%+v", err)
+		t.Fail()
+		return
+	}
 }
