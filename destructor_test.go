@@ -34,17 +34,19 @@ func TestDestructorFunc_DestroyWithError(t *testing.T) {
 }
 
 func TestDestructorFunc_MustDestroyWithError(t *testing.T) {
-	defer func() {
-		v := recover()
-		t.Logf("%+v", v)
-		if v == nil {
-			t.Fail()
-			return
-		}
-	}()
-	DestructorFunc(func() error {
-		return kerror.New(nil, "test error")
-	}).MustDestroy()
+	const class = kerror.ECustom
+	const message = "test error"
+	err := kerror.Try(func() error {
+		DestructorFunc(func() error {
+			return kerror.New(class, message)
+		}).MustDestroy()
+		return nil
+	})
+	t.Logf("%+v", err)
+	if kerror.ClassOf(err) != class || kerror.MessageOf(err) != message {
+		t.Fail()
+		return
+	}
 }
 
 func TestNoop(t *testing.T) {

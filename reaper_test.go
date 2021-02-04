@@ -31,7 +31,7 @@ func newTestObjectWithPanic(t *testing.T, c *int, value int) (int, Destructor, e
 	kerror.Panic("keep calm, this is a test panic")
 	return value, DestructorFunc(func() error {
 		*c -= value
-		t.Logf("test object (%d) was finalized (and panic now, boo!)", value)
+		t.Logf("test object (%d) was finalized", value)
 		return nil
 	}), nil
 }
@@ -104,7 +104,7 @@ func TestReaperWithError(t *testing.T) {
 		t.Fail()
 		return
 	}
-	t.Logf("\n%+v\n", err)
+	t.Logf("%+v", err)
 }
 
 func TestReaperWithPanic(t *testing.T) {
@@ -115,11 +115,20 @@ func TestReaperWithPanic(t *testing.T) {
 			return
 		}
 		v := recover()
+		t.Logf("%+v", v)
 		if v == nil {
 			t.Fail()
 			return
 		}
-		t.Logf("\n%+v\n", v)
+		err, ok := v.(error)
+		if !ok {
+			t.Fail()
+			return
+		}
+		if kerror.ClassOf(err) != kerror.EPanic || kerror.MessageOf(err) != "keep calm, this is a test panic" {
+			t.Fail()
+			return
+		}
 	}()
 	_, _, _ = newTestCompositeObject(t, newTestObjectWithPanic, &c, 1, 2, 3)
 }
@@ -139,11 +148,11 @@ func TestReaperWithPanicInDestructor(t *testing.T) {
 	}
 	defer func() {
 		dtorErr := dtor.Destroy()
+		t.Logf("%+v", dtorErr)
 		if dtorErr == nil {
 			t.Fail()
 			return
 		}
-		t.Logf("\n%+v\n", dtorErr)
 	}()
 	if c != 0 {
 		t.Fail()
@@ -254,15 +263,14 @@ func TestReaper_Finalized(t *testing.T) {
 }
 
 func TestNilReaper_Assume(t *testing.T) {
-	defer func() {
-		v := recover()
-		t.Logf("%+v", v)
-		if v == nil {
-			t.Fail()
-			return
-		}
-	}()
-	_ = (*Reaper)(nil).Assume(Noop)
+	err := kerror.Try(func() error {
+		return (*Reaper)(nil).Assume(Noop)
+	})
+	t.Logf("%+v", err)
+	if kerror.ClassOf(err) != kerror.ENil {
+		t.Fail()
+		return
+	}
 }
 
 func TestNilReaper_Release(t *testing.T) {

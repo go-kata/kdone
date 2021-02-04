@@ -21,7 +21,7 @@ func NewReaper() *Reaper {
 // Assume passes the responsibility for calling the given destructor to this reaper.
 func (r *Reaper) Assume(dtor Destructor) error {
 	if r == nil {
-		kerror.NPE()
+		kerror.Nil()
 		return nil
 	}
 	if r.released {
