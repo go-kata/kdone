@@ -209,6 +209,15 @@ func TestReaper_ReleaseWhenFinalized(t *testing.T) {
 	}
 }
 
+func TestReaper_Released(t *testing.T) {
+	reaper := NewReaper()
+	reaper.MustRelease()
+	if !reaper.Released() {
+		t.Fail()
+		return
+	}
+}
+
 func TestReaper_FinalizeWhenReleased(t *testing.T) {
 	var c int
 	reaper := NewReaper()
@@ -230,6 +239,15 @@ func TestReaper_FinalizeWhenFinalized(t *testing.T) {
 	err := reaper.Finalize()
 	t.Logf("%+v", err)
 	if kerror.ClassOf(err) != kerror.EIllegal {
+		t.Fail()
+		return
+	}
+}
+
+func TestReaper_Finalized(t *testing.T) {
+	reaper := NewReaper()
+	reaper.MustFinalize()
+	if !reaper.Finalized() {
 		t.Fail()
 		return
 	}
@@ -266,9 +284,23 @@ func TestNilReaper_Release(t *testing.T) {
 	}
 }
 
+func TestNilReaper_Released(t *testing.T) {
+	if (*Reaper)(nil).Released() {
+		t.Fail()
+		return
+	}
+}
+
 func TestNilReaper_Finalize(t *testing.T) {
 	if err := (*Reaper)(nil).Finalize(); err != nil {
 		t.Logf("%+v", err)
+		t.Fail()
+		return
+	}
+}
+
+func TestNilReaper_Finalized(t *testing.T) {
+	if (*Reaper)(nil).Finalized() {
 		t.Fail()
 		return
 	}

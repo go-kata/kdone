@@ -59,12 +59,11 @@ func (r *Reaper) Release() (Destructor, error) {
 	if r.finalized {
 		return nil, kerror.New(kerror.EIllegal, "reaper has already called destructors")
 	}
-	destructors := r.destructors
-	dtor := DestructorFunc(func() error {
-		return reap(destructors...)
-	})
 	r.released = true
-	return dtor, nil
+	destructors := r.destructors
+	return DestructorFunc(func() error {
+		return reap(destructors...)
+	}), nil
 }
 
 // MustRelease is a variant of the Release that panics on error.
@@ -76,6 +75,15 @@ func (r *Reaper) MustRelease() Destructor {
 	return dtor
 }
 
+// Released returns boolean specifies whether was this reaper released
+// from the responsibility for calling destructors.
+func (r *Reaper) Released() bool {
+	if r == nil {
+		return false
+	}
+	return r.released
+}
+
 // Finalize calls destructors in the backward order
 // if this reaper was not released from this responsibility yet.
 func (r *Reaper) Finalize() error {
@@ -85,9 +93,10 @@ func (r *Reaper) Finalize() error {
 	if r.finalized {
 		return kerror.New(kerror.EIllegal, "reaper has already called destructors")
 	}
-	err := reap(r.destructors...)
-	r.finalized = true
-	return err
+	defer func() {
+		r.finalized = true
+	}()
+	return reap(r.destructors...)
 }
 
 // MustFinalize is a variant of the Finalize that panics on error.
@@ -95,6 +104,14 @@ func (r *Reaper) MustFinalize() {
 	if err := r.Finalize(); err != nil {
 		panic(err)
 	}
+}
+
+// Finalized returns boolean specifies whether did this reapers call destructors.
+func (r *Reaper) Finalized() bool {
+	if r == nil {
+		return false
+	}
+	return r.finalized
 }
 
 // reap calls given destructors in the backward order.
