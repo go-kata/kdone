@@ -22,7 +22,7 @@ func TestDestructorFunc(t *testing.T) {
 	}
 }
 
-func TestDestructorFunc_DestroyWithError(t *testing.T) {
+func TestDestructorFunc_Destroy__Error(t *testing.T) {
 	err := DestructorFunc(func() error {
 		return kerror.New(nil, "test error")
 	}).Destroy()
@@ -33,7 +33,7 @@ func TestDestructorFunc_DestroyWithError(t *testing.T) {
 	}
 }
 
-func TestDestructorFunc_MustDestroyWithError(t *testing.T) {
+func TestDestructorFunc_MustDestroy__Error(t *testing.T) {
 	const class = kerror.ECustom
 	const message = "test error"
 	err := kerror.Try(func() error {

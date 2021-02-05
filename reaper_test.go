@@ -93,7 +93,7 @@ func TestReaper(t *testing.T) {
 	}
 }
 
-func TestReaperWithError(t *testing.T) {
+func TestReaper__Error(t *testing.T) {
 	var c int
 	_, _, err := newTestCompositeObject(t, newTestObjectWithError, &c, 1, 2, 3)
 	if err == nil {
@@ -107,7 +107,7 @@ func TestReaperWithError(t *testing.T) {
 	t.Logf("%+v", err)
 }
 
-func TestReaperWithPanic(t *testing.T) {
+func TestReaper__Panic(t *testing.T) {
 	var c int
 	defer func() {
 		if c != -6 {
@@ -133,7 +133,7 @@ func TestReaperWithPanic(t *testing.T) {
 	_, _, _ = newTestCompositeObject(t, newTestObjectWithPanic, &c, 1, 2, 3)
 }
 
-func TestReaperWithPanicInDestructor(t *testing.T) {
+func TestReaper__PanicInDestructor(t *testing.T) {
 	var c int
 	defer func() {
 		if c != -1006 {
@@ -164,7 +164,7 @@ func TestReaperWithPanicInDestructor(t *testing.T) {
 	}
 }
 
-func TestReaper_AssumeWithNilDestructor(t *testing.T) {
+func TestReaper_Assume__NilDestructor(t *testing.T) {
 	reaper := NewReaper()
 	err := reaper.Assume(nil)
 	t.Logf("%+v", err)
@@ -174,7 +174,7 @@ func TestReaper_AssumeWithNilDestructor(t *testing.T) {
 	}
 }
 
-func TestReaper_AssumeWhenReleased(t *testing.T) {
+func TestReaper_Assume__Released(t *testing.T) {
 	reaper := NewReaper()
 	reaper.MustRelease()
 	err := reaper.Assume(Noop)
@@ -185,7 +185,7 @@ func TestReaper_AssumeWhenReleased(t *testing.T) {
 	}
 }
 
-func TestReaper_AssumeWhenFinalized(t *testing.T) {
+func TestReaper_Assume__Finalized(t *testing.T) {
 	reaper := NewReaper()
 	reaper.MustFinalize()
 	err := reaper.Assume(Noop)
@@ -196,7 +196,7 @@ func TestReaper_AssumeWhenFinalized(t *testing.T) {
 	}
 }
 
-func TestReaper_ReleaseWhenReleased(t *testing.T) {
+func TestReaper_Release__Released(t *testing.T) {
 	reaper := NewReaper()
 	reaper.MustRelease()
 	_, err := reaper.Release()
@@ -207,7 +207,7 @@ func TestReaper_ReleaseWhenReleased(t *testing.T) {
 	}
 }
 
-func TestReaper_ReleaseWhenFinalized(t *testing.T) {
+func TestReaper_Release__Finalized(t *testing.T) {
 	reaper := NewReaper()
 	reaper.MustFinalize()
 	_, err := reaper.Release()
@@ -227,7 +227,7 @@ func TestReaper_Released(t *testing.T) {
 	}
 }
 
-func TestReaper_FinalizeWhenReleased(t *testing.T) {
+func TestReaper_Finalize__Released(t *testing.T) {
 	var c int
 	reaper := NewReaper()
 	reaper.MustAssume(DestructorFunc(func() error {
@@ -242,7 +242,7 @@ func TestReaper_FinalizeWhenReleased(t *testing.T) {
 	}
 }
 
-func TestReaper_FinalizeWhenFinalized(t *testing.T) {
+func TestReaper_Finalize__Finalized(t *testing.T) {
 	reaper := NewReaper()
 	reaper.MustFinalize()
 	err := reaper.Finalize()
@@ -263,9 +263,7 @@ func TestReaper_Finalized(t *testing.T) {
 }
 
 func TestNilReaper_Assume(t *testing.T) {
-	err := kerror.Try(func() error {
-		return (*Reaper)(nil).Assume(Noop)
-	})
+	err := (*Reaper)(nil).Assume(Noop)
 	t.Logf("%+v", err)
 	if kerror.ClassOf(err) != kerror.ENil {
 		t.Fail()

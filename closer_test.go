@@ -22,7 +22,7 @@ func TestCloserFunc(t *testing.T) {
 	}
 }
 
-func TestCloserFuncWithError(t *testing.T) {
+func TestCloserFunc__Error(t *testing.T) {
 	err := CloserFunc(func() error {
 		return kerror.New(nil, "test error")
 	}).Close()

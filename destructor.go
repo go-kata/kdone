@@ -25,7 +25,7 @@ func (f DestructorFunc) MustDestroy() {
 	}
 }
 
-// Noop specifies the destructor which does nothing.
+// Noop specifies the destructor that does nothing.
 var Noop = DestructorFunc(func() error {
 	return nil
 })

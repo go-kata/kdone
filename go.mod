@@ -3,5 +3,5 @@ module github.com/go-kata/kdone
 go 1.14
 
 require (
-	github.com/go-kata/kerror v0.2.1
+	github.com/go-kata/kerror v0.3.0
 )
