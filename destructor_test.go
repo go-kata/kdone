@@ -34,7 +34,7 @@ func TestDestructorFunc_Destroy__Error(t *testing.T) {
 }
 
 func TestDestructorFunc_MustDestroy__Error(t *testing.T) {
-	const class = kerror.ECustom
+	const class = kerror.Label("test.Error")
 	const message = "test error"
 	err := kerror.Try(func() error {
 		DestructorFunc(func() error {

@@ -23,7 +23,7 @@ func newTestObjectWithError(t *testing.T, c *int, value int) (int, Destructor, e
 		*c -= value
 		t.Logf("test object (%d) was finalized", value)
 		return nil
-	}), kerror.New(kerror.ECustom, "test error")
+	}), kerror.New(kerror.Label("test.Error"), "test error")
 }
 
 func newTestObjectWithPanic(t *testing.T, c *int, value int) (int, Destructor, error) {
